@@ -1,12 +1,13 @@
-import { Pool } from "pg";
-require("dotenv").config();
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import 'dotenv/config';
 
-const pool = new Pool({
-  user: process.env.LOCAL_DB_USER,
-  host: process.env.LOCAL_DB_HOST,
-  database: process.env.LOCAL_DB_NAME,
+export const databaseConfig: TypeOrmModuleOptions = {
+  type: 'postgres',
+  host: process.env.LOCAL_DB_USER,
+  port: parseInt(process.env.LOCAL_DB_PORT, 10) || 5432,
+  username: process.env.LOCAL_DB_USER,
   password: process.env.LOCAL_DB_PASSWORD,
-  port: 5432,
-});
-
-export default pool;
+  database: process.env.LOCAL_DB_NAME,
+  entities: [__dirname + '/../**/*.entity.{js,ts}'],
+  synchronize: true, // Set to false in production
+};
