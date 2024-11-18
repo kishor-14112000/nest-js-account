@@ -1,5 +1,5 @@
 // src/authentication/user.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ManageUsers } from '../entities/manage-users.entity';
@@ -13,15 +13,21 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(name: string, password: string): Promise<ManageUsers | null> {
-    const user = await this.usersRepository.findOne({ where: { name, password } });
+  async validateUser(email: string, password: string, role: string): Promise<ManageUsers | null> {
+    const user = await this.usersRepository.findOne({ where: { email, password, role } });
     return user ? user : null;
   }
 
-  async login(user: ManageUsers) {
-    const payload = { userId: user.user_id, role: user.role };
+  async login(payload: { email: string; password: string, role: string }) {
+    const user = await this.validateUser(payload.email, payload.password, payload.role);
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials or User not found!');
+    }
+
+    const jwtPayload = { userId: user.id, role: user.role };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(jwtPayload),
     };
   }
 }

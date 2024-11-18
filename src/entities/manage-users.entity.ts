@@ -1,23 +1,24 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
+import { GeneralEntity } from './general.entity';
+import { Organization } from './organization.entity';
 
 @Entity({ name: 'manage_users' })
-export class ManageUsers {
-  @PrimaryGeneratedColumn('uuid')
-  user_id: string;
-
-  @Column()
+export class ManageUsers extends GeneralEntity {
+  @Column({ nullable: false })
   name: string;
+
+  @Column({ nullable: false })
+  email: string;
 
   @Column()
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   role: string;
 
   @Column('uuid')
@@ -26,9 +27,7 @@ export class ManageUsers {
   @Column({ type: 'smallint', default: 1 })
   status: number;
 
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
+  @ManyToOne(() => Organization, (organization) => organization.users, { onDelete: 'CASCADE'})
+  @JoinColumn({ name: 'organization_id' })
+  organization: Organization;
 }
