@@ -2,15 +2,16 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ManageUsers } from '../entities/manage-users.entity';
+import { ManageUsers } from '../../entities/manage-users.entity';
 import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/authentication/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(ManageUsers)
-    private usersRepository: Repository<ManageUsers>,
-    private jwtService: JwtService,
+    private readonly usersRepository: Repository<ManageUsers>,
+    private readonly authService: AuthService,
   ) {}
 
   async validateUser(email: string, password: string, role: string): Promise<ManageUsers | null> {
@@ -25,9 +26,6 @@ export class UserService {
       throw new UnauthorizedException('Invalid credentials or User not found!');
     }
 
-    const jwtPayload = { userId: user.id, role: user.role };
-    return {
-      access_token: this.jwtService.sign(jwtPayload),
-    };
+    return this.authService.generateToken({ userId: user.id, role: user.role });
   }
 }

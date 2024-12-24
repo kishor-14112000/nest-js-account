@@ -5,6 +5,7 @@ import { ManageUsers } from '../entities/manage-users.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { UserService } from 'src/users/user.service';
+import { AuthService } from './auth.service';
 
 @Module({
     imports:[
@@ -15,8 +16,9 @@ import { UserService } from 'src/users/user.service';
             signOptions: { expiresIn: '8h' }
         })
     ],
-    providers: [UserService],
-    controllers: [UserController]
+    providers: [UserService, AuthService],
+    controllers: [UserController],
+    exports: [AuthService],
 })
 
 export class AuthModule {}

@@ -21,13 +21,10 @@ export class ManageUsers extends GeneralEntity {
   @Column({ nullable: false })
   role: string;
 
-  @Column('uuid')
-  organization_id: string;
-
   @Column({ type: 'smallint', default: 1 })
   status: number;
 
   @ManyToOne(() => Organization, (organization) => organization.users, { onDelete: 'CASCADE'})
-  @JoinColumn({ name: 'organization_id' })
+  @JoinColumn({ name: 'organization_id_fs' })
   organization: Organization;
 }
