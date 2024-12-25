@@ -25,6 +25,6 @@ export class ManageUsers extends GeneralEntity {
   status: number;
 
   @ManyToOne(() => Organization, (organization) => organization.users, { onDelete: 'CASCADE'})
-  @JoinColumn({ name: 'organization_id_fs' })
+  @JoinColumn({ name: 'organization_id' })
   organization: Organization;
 }

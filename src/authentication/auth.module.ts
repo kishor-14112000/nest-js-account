@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserController } from '../users/user.contoller';
+import { UserController } from '../repository/users/user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ManageUsers } from '../entities/manage-users.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UserService } from 'src/users/user.service';
+import { UserService } from '../repository/users/user.service';
 import { AuthService } from './auth.service';
 
 @Module({
@@ -18,7 +18,7 @@ import { AuthService } from './auth.service';
     ],
     providers: [UserService, AuthService],
     controllers: [UserController],
-    exports: [AuthService],
+    exports: [AuthService, JwtModule],
 })
 
 export class AuthModule {}

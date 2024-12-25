@@ -16,7 +16,7 @@ export class AuthService {
     try {
       return this.jwtService.verify(token);
     } catch (err) {
-      throw new UnauthorizedException('Invalid or expired token');
+      throw new UnauthorizedException('Invalid or expired session');
     }
   }
 }

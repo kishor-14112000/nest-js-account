@@ -1,21 +1,19 @@
-// src/authentication/user.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ManageUsers } from '../../entities/manage-users.entity';
-import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/authentication/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(ManageUsers)
-    private readonly usersRepository: Repository<ManageUsers>,
+    private readonly usersEntity: Repository<ManageUsers>,
     private readonly authService: AuthService,
   ) {}
 
   async validateUser(email: string, password: string, role: string): Promise<ManageUsers | null> {
-    const user = await this.usersRepository.findOne({ where: { email, password, role } });
+    const user = await this.usersEntity.findOne({ where: { email, password, role } });
     return user ? user : null;
   }
 
