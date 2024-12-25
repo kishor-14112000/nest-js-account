@@ -13,17 +13,21 @@ export class UserService {
   ) {}
 
   async validateUser(email: string, password: string, role: string): Promise<ManageUsers | null> {
-    const user = await this.usersEntity.findOne({ where: { email, password, role } });
+    const user = await this.usersEntity.findOne({
+      relations: ['organization_id'],
+      select: ['id', 'name', 'organization_id', 'role'], 
+      where: { email, password, role, status: 1 } });
     return user ? user : null;
   }
 
   async login(payload: { email: string; password: string, role: string }) {
     const user = await this.validateUser(payload.email, payload.password, payload.role);
-
     if (!user) {
       throw new UnauthorizedException('Invalid credentials or User not found!');
     }
-
-    return this.authService.generateToken({ userId: user.id, role: user.role });
+    return {
+      token: this.authService.generateToken({ id: user.id, role: user.role }),
+      user_data: user
+    }
   }
 }

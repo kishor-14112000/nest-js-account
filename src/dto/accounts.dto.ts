@@ -23,17 +23,9 @@ export class AccountsDTO {
 
     @IsString()
     @IsNotEmpty()
-    debit: string
+    account_type: string
 
     @IsString()
     @IsNotEmpty()
-    credit: string
-
-    @IsNumber()
-    @IsNotEmpty()
-    status: number
-
-    @IsString()
-    @IsNotEmpty()
-    role: string
+    amount: string
 }

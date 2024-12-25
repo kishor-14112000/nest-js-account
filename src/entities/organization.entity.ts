@@ -17,6 +17,6 @@ export class Organization extends GeneralEntity {
     @Column({ type: 'smallint', default: 1 })
     status: number;
 
-    @OneToMany(() => ManageUsers, (manageUser) => manageUser.organization)
+    @OneToMany(() => ManageUsers, (manageUser) => manageUser.organization_id)
     users: ManageUsers[];
 }
