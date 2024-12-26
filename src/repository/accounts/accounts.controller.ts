@@ -11,6 +11,7 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
+import { AccountsDTO } from 'src/dto/accounts.dto';
 
 @Controller('accounts')
 export class AccountsController {

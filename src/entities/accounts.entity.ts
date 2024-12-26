@@ -3,6 +3,7 @@ import { GeneralEntity } from "./general.entity";
 import { Organization } from "./organization.entity";
 import { AccountTypeEntity } from "./account-type.entity";
 import { SubAccountTypeEntity } from "./sub-account-type.entity";
+import { ManageUsers } from "./manage-users.entity";
 
 @Entity({ name: 'accounts' })
 export class AccountsEntity extends GeneralEntity {
@@ -32,4 +33,8 @@ export class AccountsEntity extends GeneralEntity {
     @ManyToOne(() => SubAccountTypeEntity, { onDelete: 'SET NULL' })
     @JoinColumn({ name: 'sub_account_type_id' })
     subAccountType: SubAccountTypeEntity;
+
+    @ManyToOne(() => ManageUsers, { onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'creater_id' })
+    created_by: ManageUsers;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUUID, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class AccountsDTO {
     @IsUUID()

@@ -43,7 +43,19 @@ export class AccountService {
 
   async createAccount(payload: AccountsDTO): Promise<DropdownData | any> {
     try {
-      
+      const insertRecord = await this.accountTypeEntity
+      .createQueryBuilder()
+      .insert()
+      .into('accounts')
+      .values({
+        organization_id: payload.organization_id,
+        sub_account_id: payload.sub_account_id,
+        acc_type_id: payload.acc_type_id,
+        name: payload.name,
+        alias_name: payload.alias_name,
+        account_type: payload.account_type,
+        amount: payload.amount
+      })
     } catch (error) {
       throw new UnauthorizedException(error);
     }

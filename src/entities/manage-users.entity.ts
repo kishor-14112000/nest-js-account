@@ -6,6 +6,7 @@ import {
 } from 'typeorm';
 import { GeneralEntity } from './general.entity';
 import { Organization } from './organization.entity';
+import { AccountsEntity } from './accounts.entity';
 
 @Entity({ name: 'manage_users' })
 export class ManageUsers extends GeneralEntity {
@@ -27,4 +28,8 @@ export class ManageUsers extends GeneralEntity {
   @ManyToOne(() => Organization, (organization) => organization.users, { onDelete: 'CASCADE'})
   @JoinColumn({ name: 'organization_id' })
   organization_id: Organization;
+
+  @ManyToOne(() => AccountsEntity, (accounts) => accounts.created_by, { onDelete: 'CASCADE'})
+  @JoinColumn({ name: 'creater_id' })
+  user_id: AccountsEntity;
 }
