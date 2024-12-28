@@ -27,14 +27,14 @@ export class AccountsEntity extends GeneralEntity {
     organization: Organization;
 
     @ManyToOne(() => AccountTypeEntity, { onDelete: 'SET NULL' })
-    @JoinColumn({ name: 'account_type_id' })
+    @JoinColumn({ name: 'acc_type_id' })
     accountType: AccountTypeEntity;
 
     @ManyToOne(() => SubAccountTypeEntity, { onDelete: 'SET NULL' })
-    @JoinColumn({ name: 'sub_account_type_id' })
+    @JoinColumn({ name: 'sub_account_id' })
     subAccountType: SubAccountTypeEntity;
 
     @ManyToOne(() => ManageUsers, { onDelete: 'SET NULL' })
-    @JoinColumn({ name: 'creater_id' })
+    @JoinColumn({ name: 'created_by' })
     created_by: ManageUsers;
 }

@@ -1,6 +1,10 @@
 import { IsString, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class AccountsDTO {
+
+    @IsUUID()
+    id: string
+
     @IsUUID()
     @IsNotEmpty()
     organization_id: string
@@ -28,4 +32,8 @@ export class AccountsDTO {
     @IsString()
     @IsNotEmpty()
     amount: string
+
+    @IsUUID()
+    @IsNotEmpty()
+    created_by: string
 }

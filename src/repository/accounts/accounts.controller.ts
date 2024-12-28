@@ -11,7 +11,6 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-import { AccountsDTO } from 'src/dto/accounts.dto';
 
 @Controller('accounts')
 export class AccountsController {
@@ -40,8 +39,8 @@ export class AccountsController {
   @Post('create-account')
   async createAccount(@Body() payload: any, @Req() req, @Res() res: Response) {
     try {
-      const user = req.user;
-      payload.user = user;
+      const created_by = req.user.userId;
+      payload.created_by = created_by;
       const data = await this.accountService.createAccount(payload);
       return res.status(200).json({
         success: true,
@@ -52,6 +51,26 @@ export class AccountsController {
       return res.status(500).json({
         success: false,
         message: 'Error while creating account.',
+        error: error,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('get-account-data')
+  async getAccountData(@Res() res: Response) {
+    console.log("🚀 ~ UserController ~ login ~ process.env.NODE_ENV:", process.env.NODE_ENV)
+    try {
+      const data = await this.accountService.getAccountData();
+      return res.status(200).json({
+        success: true,
+        message: 'Account data retrieved successfully.',
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error retrieving Account data.',
         error: error,
       });
     }
