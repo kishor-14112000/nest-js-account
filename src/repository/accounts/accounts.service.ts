@@ -22,7 +22,7 @@ export class AccountService {
 
     @InjectRepository(SubAccountTypeEntity)
     private readonly subAccountsEntity: Repository<SubAccountTypeEntity>,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
   ) {}
 
   async getDropdownData(): Promise<DropdownData | any> {
@@ -108,12 +108,13 @@ export class AccountService {
           ${POST_ACCOUNTS}.debit, 
           ${POST_ACCOUNTS}.credit,
           ${POST_ACCOUNT_TYPE}.name as account_type_name,
-          ${POST_SUB_ACCOUNT}.sub_account_name as sub_account_name
+          ${POST_SUB_ACCOUNT}.sub_account_name as sub_account_name,
+          ${POST_SUB_ACCOUNT}.id as sub_account_id
         from ${POST_ACCOUNTS}
         left join ${POST_ACCOUNT_TYPE} ON ${POST_ACCOUNTS}.acc_type_id = ${POST_ACCOUNT_TYPE}.id
         left join ${POST_SUB_ACCOUNT} ON ${POST_ACCOUNTS}.sub_account_id = ${POST_SUB_ACCOUNT}.id;
       `);
-      return data
+      return data;
     } catch (error) {
       throw new UnauthorizedException(error.message || 'Operation failed.');
     }

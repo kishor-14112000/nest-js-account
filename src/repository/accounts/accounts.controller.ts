@@ -59,7 +59,6 @@ export class AccountsController {
   @UseGuards(JwtAuthGuard)
   @Get('get-account-data')
   async getAccountData(@Res() res: Response) {
-    console.log("🚀 ~ UserController ~ login ~ process.env.NODE_ENV:", process.env.NODE_ENV)
     try {
       const data = await this.accountService.getAccountData();
       return res.status(200).json({
