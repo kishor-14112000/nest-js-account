@@ -74,4 +74,23 @@ export class AccountsController {
       });
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('delete-account-data')
+  async deleteAccountData(@Body() payload: any, @Res() res: Response) {
+    try {
+      const data = await this.accountService.deleteAccountData(payload);
+      return res.status(200).json({
+        success: true,
+        message: 'Data deleted successfully.',
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error while delete Account data.',
+        error: error,
+      });
+    }
+  }
 }

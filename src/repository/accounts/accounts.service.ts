@@ -59,7 +59,7 @@ export class AccountService {
         credit = '0';
         debit = payload.amount;
       }
-      if (payload.id) {
+      if (payload.id && payload.id.trim() !== '') {
         await this.accountTypeEntity
           .createQueryBuilder()
           .update(POST_ACCOUNTS)
@@ -102,19 +102,34 @@ export class AccountService {
     try {
       const data = await this.dataSource.query(`
         select 
-          ${POST_ACCOUNTS}.id, 
+          ${POST_ACCOUNTS}.id,
           ${POST_ACCOUNTS}.name, 
           ${POST_ACCOUNTS}.alias_name, 
           ${POST_ACCOUNTS}.debit, 
           ${POST_ACCOUNTS}.credit,
           ${POST_ACCOUNT_TYPE}.name as account_type_name,
+          ${POST_ACCOUNT_TYPE}.id as account_type_id,
           ${POST_SUB_ACCOUNT}.sub_account_name as sub_account_name,
           ${POST_SUB_ACCOUNT}.id as sub_account_id
         from ${POST_ACCOUNTS}
         left join ${POST_ACCOUNT_TYPE} ON ${POST_ACCOUNTS}.acc_type_id = ${POST_ACCOUNT_TYPE}.id
-        left join ${POST_SUB_ACCOUNT} ON ${POST_ACCOUNTS}.sub_account_id = ${POST_SUB_ACCOUNT}.id;
+        left join ${POST_SUB_ACCOUNT} ON ${POST_ACCOUNTS}.sub_account_id = ${POST_SUB_ACCOUNT}.id
+        where ${POST_ACCOUNTS}.deleted_at is null;
       `);
       return data;
+    } catch (error) {
+      throw new UnauthorizedException(error.message || 'Operation failed.');
+    }
+  }
+
+  async deleteAccountData(payload: any) {
+    const {id} = payload;
+    try {
+      const data = await this.dataSource.query(`
+        update ${POST_ACCOUNTS} set deleted_at=now(), status=2 where id=$1;`,
+        [id]
+      );
+      return { success: true, message: 'Operation completed successfully.' };
     } catch (error) {
       throw new UnauthorizedException(error.message || 'Operation failed.');
     }
