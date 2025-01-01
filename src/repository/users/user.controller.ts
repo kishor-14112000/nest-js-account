@@ -23,7 +23,6 @@ export class UserController {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        domain: '.onrender.com',
       });
       return res.status(200).json({
         message: 'Successfully Logged In!',
