@@ -22,7 +22,8 @@ export class UserController {
       res.cookie('user-session', data.token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'lax',
+        domain: '.onrender.com',
       });
       return res.status(200).json({
         message: 'Successfully Logged In!',
@@ -41,7 +42,8 @@ export class UserController {
     res.clearCookie('user-session', {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'lax',
+      domain: '.onrender.com',
     });
     return res.status(200).json({ message: 'Successfully logged out!' });
   }
