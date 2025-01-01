@@ -21,7 +21,7 @@ export class UserController {
       const data = await this.userService.login(payload);
       res.cookie('user-session', data.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         sameSite: 'strict',
       });
       return res.status(200).json({
@@ -40,7 +40,7 @@ export class UserController {
   async logout(@Res() res: Response) {
     res.clearCookie('user-session', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'strict',
     });
     return res.status(200).json({ message: 'Successfully logged out!' });
