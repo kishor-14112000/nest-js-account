@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://accounts-backend-latest.onrender.com', 'https://acc-frontend-qdzf.onrender.com'],
+    origin: ['http://localhost:4200', 'https://accounts-backend-latest.onrender.com', 'https://acc-frontend-1.onrender.com'],
     methods: 'GET, POST, PUT, PATCH, DELETE',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
