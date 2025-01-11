@@ -4,7 +4,7 @@ import { AccountsEntity } from 'src/entities/accounts.entity';
 import { NarrationEntity } from 'src/entities/narration.entity';
 import { DataSource, Repository } from 'typeorm';
 const POST_NARRATION_DATA = process.env.POST_NARRATION_DATA;
-console.log("🚀 ~ POST_NARRATION_DATA:", POST_NARRATION_DATA)
+const POST_ACCOUNTS = process.env.POST_ACCOUNTS;
 
 @Injectable()
 export class NarrationService {
@@ -31,7 +31,18 @@ export class NarrationService {
   }
 
   async getNarration(): Promise<NarrationEntity | any> {
-    const narration_data = await this.dataSource.query(``);
+    const narration_data = await this.dataSource.query(
+      `select 
+            narration.id, 
+            narration.name as narration_name,
+            narration.account_id, 
+            narration.organization_id, 
+            accounts.name as account_name
+        from ${POST_NARRATION_DATA} as narration
+        join ${POST_ACCOUNTS} as accounts ON narration.account_id = accounts.id
+        where narration.deleted_at is null;`,
+    );
+    return narration_data;
   }
 
   async createNarration(payload: any): Promise<NarrationEntity | any> {
@@ -61,6 +72,19 @@ export class NarrationService {
       }
     } catch (error) {
       throw new UnauthorizedException(error);
+    }
+  }
+
+  async deleteNarrationData(payload: any) {
+    const { id } = payload;
+    try {
+      const data = await this.dataSource.query(
+        `update ${POST_NARRATION_DATA} set deleted_at=now() where id=$1;`,
+        [id],
+      );
+      return { success: true, message: 'Operation completed successfully.' };
+    } catch (error) {
+      throw new UnauthorizedException(error.message || 'Operation failed.');
     }
   }
 }

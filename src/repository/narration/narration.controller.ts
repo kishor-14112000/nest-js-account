@@ -75,4 +75,27 @@ export class NarrationContoller {
       });
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('delete-narration-data')
+  async deleteNarration(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res: Response,
+  ) {
+    try {
+      const data = await this.narrationService.deleteNarrationData(payload);
+      return res.status(200).json({
+        success: true,
+        message: 'Narration data deleted successfully.',
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error while deleting narration data.',
+        error: error,
+      });
+    }
+  }
 }
