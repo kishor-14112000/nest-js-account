@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  JoinColumn
-} from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { GeneralEntity } from './general.entity';
 import { Organization } from './organization.entity';
 import { AccountsEntity } from './accounts.entity';
@@ -25,11 +20,15 @@ export class ManageUsers extends GeneralEntity {
   @Column({ type: 'smallint', default: 1 })
   status: number;
 
-  @ManyToOne(() => Organization, (organization) => organization.users, { onDelete: 'CASCADE'})
+  @ManyToOne(() => Organization, (organization) => organization.users, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'organization_id' })
   organization_id: Organization;
 
-  @ManyToOne(() => AccountsEntity, (accounts) => accounts.created_by, { onDelete: 'CASCADE'})
+  @ManyToOne(() => AccountsEntity, (accounts) => accounts.created_by, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'creater_id' })
   user_id: AccountsEntity;
 }

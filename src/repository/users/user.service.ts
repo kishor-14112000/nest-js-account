@@ -12,16 +12,16 @@ export class UserService {
     private readonly authService: AuthService,
   ) {}
 
-  async validateUser(email: string, password: string, role: string): Promise<ManageUsers | null> {
+  async validateUser(email: string, password: string): Promise<ManageUsers | null> {
     const user = await this.usersEntity.findOne({
       relations: ['organization_id'],
       select: ['id', 'name', 'organization_id', 'role'], 
-      where: { email, password, role, status: 1 } });
+      where: { email, password, status: 1 } });
     return user ? user : null;
   }
 
-  async login(payload: { email: string; password: string, role: string }) {
-    const user = await this.validateUser(payload.email, payload.password, payload.role);
+  async login(payload: { email: string; password: string}) {
+    const user = await this.validateUser(payload.email, payload.password);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials or User not found!');
     }
