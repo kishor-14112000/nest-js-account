@@ -4,7 +4,7 @@ import { GeneralEntity } from './general.entity';
 @Entity({ name: 'maintain_document' })
 export class MaintainDocument extends GeneralEntity {
   @Column({ nullable: false })
-  types: string;
+  type: string;
 
   @Column({ nullable: false })
   header_account: string;

@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AccountsModule } from './repository/accounts/accounts.module';
 import { NarrationModule } from './repository/narration/narration.module';
 import { DocumentModule } from './repository/maintain-document/md.module';
+import { UserModule } from './repository/users/user.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { DocumentModule } from './repository/maintain-document/md.module';
     AuthModule,
     AccountsModule,
     NarrationModule,
-    DocumentModule
+    DocumentModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

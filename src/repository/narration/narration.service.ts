@@ -19,7 +19,7 @@ export class NarrationService {
   async getAccounts(): Promise<AccountsEntity | any> {
     try {
       const account_data = await this.accountsEntity.find({
-        select: ['id', 'name'],
+        select: ['id', 'name', 'debit', 'credit'],
         where: {
           status: 1,
         },

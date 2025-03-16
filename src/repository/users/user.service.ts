@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ManageUsers } from '../../entities/manage-users.entity';
 import { AuthService } from 'src/authentication/auth.service';
+import { MailService } from 'src/config/email.service';
 
 @Injectable()
 export class UserService {
@@ -10,6 +11,7 @@ export class UserService {
     @InjectRepository(ManageUsers)
     private readonly usersEntity: Repository<ManageUsers>,
     private readonly authService: AuthService,
+    private readonly mailService: MailService
   ) {}
 
   async validateUser(email: string, password: string): Promise<ManageUsers | null> {
@@ -30,4 +32,14 @@ export class UserService {
       user_data: user
     }
   }
+
+  async forgotPass(payload: any) {
+    console.log("🚀 ~ UserService ~ forgotPass ~ payload:", payload)
+    if (!payload.email) {
+      throw new UnauthorizedException('Email is required!');
+    }
+    await this.mailService.sendForgotPasswordEmail(payload.email);
+    return { message: 'Password reset request sent. Please check your inbox.' };
+  }
+
 }

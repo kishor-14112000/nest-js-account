@@ -26,28 +26,47 @@ export class DocContoller {
     }
   }
 
-//   @UseGuards(JwtAuthGuard)
-//   @Post('create-narration-data')
-//   async createNarration(
-//     @Body() payload: any,
-//     @Req() req,
-//     @Res() res: Response,
-//   ) {
-//     try {
-//       const data = await this.narrationService.createNarration(payload);
-//       return res.status(200).json({
-//         success: true,
-//         message: 'Narration data created successfully.',
-//         data,
-//       });
-//     } catch (error) {
-//       return res.status(500).json({
-//         success: false,
-//         message: 'Error retrieving creating narration data.',
-//         error: error,
-//       });
-//     }
-//   }
+  @UseGuards(JwtAuthGuard)
+  @Get('get-maintain-doc')
+  async getMaintainDocument(@Res() res: Response) {
+    try {
+      const data = await this.maintainDocService.getMaintainDocument();
+      return res.status(200).json({
+        success: true,
+        message: 'Maintain document data retrieved successfully.',
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error retrieving maintain document data.',
+        error: error,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('receipt-info')
+  async createNarration(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res: Response,
+  ) {
+    try {
+      const data = await this.maintainDocService.createReceiptInfo(payload);
+      return res.status(200).json({
+        success: true,
+        message: 'Receipt data created successfully.',
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error retrieving creating receipt data.',
+        error: error,
+      });
+    }
+  }
 
 //   @UseGuards(JwtAuthGuard)
 //   @Post('delete-narration-data')
