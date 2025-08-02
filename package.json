@@ -14,6 +14,10 @@
     "prod": "nodemon --watch src --watch .env.production.local --exec ts-node -r tsconfig-paths/register src/main.ts",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "migration:gen": "npx sequelize-cli migration:generate --name",
+    "migrate": "nest build && npx sequelize-cli db:migrate --config=config/config.js",
+    "migrate:undo": "npm run build && npx sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "npm run build && npx sequelize-cli db:migrate:undo:all",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -41,9 +45,11 @@
     "helmet": "^8.0.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "pg": "^8.13.1",
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "sequelize": "^6.37.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

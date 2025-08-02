@@ -54,7 +54,7 @@ export class MaintainDocService {
             INSERT INTO ${POST_MAINTAIN_DOCUMENT} (
                 type, header_account, date, receipt, total_amount, total_lines, organization_id
             ) VALUES (
-                '${docTypes.value}', '${accountTypes.label}', '${date}', '${receiptNumber}', '${totalAmount}', '${total_lines}', '${organization_id}'
+                '${docTypes}', '${accountTypes.label}', '${date}', '${receiptNumber}', '${totalAmount}', '${total_lines}', '${organization_id}'
             )
         `;
       await queryRunner.query(maintainQuery);
@@ -69,6 +69,7 @@ export class MaintainDocService {
       await queryRunner.commitTransaction();
       return { success: true, message: 'Data inserted successfully' };
     } catch (error) {
+      console.log("🚀 ~ MaintainDocService ~ createReceiptInfo ~ error:", error)
       await queryRunner.rollbackTransaction();
       throw new Error(`Error while inserting data: ${error}`);
     } finally {

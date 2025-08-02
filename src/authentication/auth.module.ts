@@ -14,7 +14,7 @@ import { MailService } from 'src/config/email.service';
         PassportModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '8h' }
+            signOptions: { expiresIn: '24h' }
         }),
         forwardRef(() => UserModule)
     ],

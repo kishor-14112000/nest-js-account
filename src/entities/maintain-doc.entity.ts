@@ -20,4 +20,7 @@ export class MaintainDocument extends GeneralEntity {
 
   @Column({ nullable: false })
   total_lines: number;
+
+  @Column({ nullable: false })
+  organization_id: string;
 }
