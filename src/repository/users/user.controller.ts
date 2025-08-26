@@ -46,4 +46,16 @@ export class UserController {
     // });
     return res.status(200).json({ message: 'Successfully logged out!' });
   }
+
+  @Post('forgot-password')
+  async forgotPass(@Body() payload: any, @Res() res: Response) {
+    try {
+      await this.userService.forgotPass(payload);
+      return res.status(200).json({
+        message: 'Forgot Password Successfully!',
+      });
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+  }
 }

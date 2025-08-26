@@ -16,14 +16,15 @@ export class NarrationService {
     private dataSource: DataSource,
   ) {}
 
-  async getAccounts(): Promise<AccountsEntity | any> {
+  async getAccounts(): Promise<AccountsEntity[] | any> {
     try {
-      const account_data = await this.accountsEntity.find({
-        select: ['id', 'name'],
-        where: {
-          status: 1,
-        },
-      });
+      const account_data = await this.accountsEntity.query(`
+        SELECT a.id, a.name, a.debit, a.credit
+        FROM accounts a
+        INNER JOIN sub_accounts s ON a.sub_account_id = s.id
+        WHERE a.status = 1 AND s.sub_account_name = 'Income'
+      `);
+      
       return account_data;
     } catch (error) {
       throw new UnauthorizedException(error);
